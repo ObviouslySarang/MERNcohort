@@ -1,0 +1,19 @@
+{
+  "name": "merncohort",
+  "version": "1.0.0",
+  "description": "a repo to document the learnings from harkirats mern cohort",
+  "main": "middlewareAndZod.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ObviouslySarang/Practice_Mern_with_Harkirat.git"
+  },
+  "author": "SARANG",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ObviouslySarang/Practice_Mern_with_Harkirat/issues"
+  },
+  "homepage": "https://github.com/ObviouslySarang/Practice_Mern_with_Harkirat#readme"
+}
