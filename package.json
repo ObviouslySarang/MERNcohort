@@ -8,12 +8,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ObviouslySarang/Practice_Mern_with_Harkirat.git"
+    "url": "https://github.com/ObviouslySarang/MERNcohort.git"
   },
   "author": "SARANG",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ObviouslySarang/Practice_Mern_with_Harkirat/issues"
+    "url": "https://github.com/ObviouslySarang/MERNcohort.git"
   },
-  "homepage": "https://github.com/ObviouslySarang/Practice_Mern_with_Harkirat#readme"
+  "homepage": "https://github.com/ObviouslySarang/MERNcohort#readme"
 }
