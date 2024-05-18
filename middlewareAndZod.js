@@ -30,14 +30,21 @@ app.use(Express.json());//this middleware is used to tell that the body is expec
 
 
 //  {   ASSIGNMENT - count the number of requests and display }
-let requestCount = 0;
 
+let requestCount = 0;
 // this is better way of handling auth and middleware checks for individual routes 
 // a middleware always have a next function to execute the next callback function of the request api
 function countReq(req,res,next){//a middleware to count the no of requests
     requestCount++;
     res.json({"no of request received":requestCount,});
     next();
+}
+
+function validateInput(object){
+    const schema = {
+        
+    }
+
 }
 
 app.get('/count',countReq,(req,res)=>{

@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/ObviouslySarang/MERNcohort.git"
   },
-  "homepage": "https://github.com/ObviouslySarang/MERNcohort#readme"
+  "homepage": "https://github.com/ObviouslySarang/MERNcohort#readme",
+  "dependencies": {
+    "zod": "^3.23.8"
+  }
 }
