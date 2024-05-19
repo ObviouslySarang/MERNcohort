@@ -1,5 +1,7 @@
 const Express= require('express')
+//const zod = require('zod')
 const app = Express();
+//const z = zod;
 
 app.use(Express.json());//this middleware is used to tell that the body is expected as a json obj and to get it parsed accordingly
 
@@ -29,7 +31,7 @@ app.use(Express.json());//this middleware is used to tell that the body is expec
 //     })
 
 
-//  {   ASSIGNMENT - count the number of requests and display }
+//  {   ASSIGNMENT - count the number of requests and display  }
 
 let requestCount = 0;
 // this is better way of handling auth and middleware checks for individual routes 
@@ -40,17 +42,30 @@ function countReq(req,res,next){//a middleware to count the no of requests
     next();
 }
 
-function validateInput(object){
-    const schema = {
-        
-    }
+function validateInput(obj){
+    const schema = z.object({
+        email : z.string().email(),
+        username : z.string().min(5),
+        password : z.string().min(6),
+    })
+    const response = schema.safeParse(obj);
 
+    //console.log(response);
+    return response;
 }
-
 app.get('/count',countReq,(req,res)=>{
         res.status(200).json({
             msg:req.headers.user,
         })
 })
+// app.get('/validate',(req,res)=>{
+//     const response = validateInput(req.body);
+//     if (!response.success)
+//         {
+//         res.send(" koi matlab hi ni h bc");
+//     }
+//     else {console.log("successful");
+//         res.json({msg:"auth successfull"});}
+// })
 
-    app.listen(3000);
+    app.listen(5000);
