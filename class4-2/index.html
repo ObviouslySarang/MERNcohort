@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!--  A simple todo app by DOM manupulation -->
+    <script>
+        let globalid = 1;
+        function addtodo(){
+                const title = document.getElementById("title").value;
+                const description = document.getElementById("description").value;
+                
+                const parent = document.getElementById("todos");
+                parent.appendChild(createChild(title,description,globalid++))
+
+        }
+        function markasdone(todoid){
+            document.getElementById(todoid).children[2].innerHTML = "Done !";
+        }
+        function createChild(title,description,id){
+            const child = document.createElement("div");
+                const gp1  = document.createElement("div");
+                gp1.innerHTML = title;
+                const gp2  = document.createElement("div");
+                gp2.innerHTML = description;
+                const gp3  = document.createElement("button");
+                gp3.innerHTML = "Mark as done";
+                gp3.setAttribute("onclick" , `markasdone(${id})`);
+                child.appendChild(gp1);
+                child.appendChild(gp2);
+                child.appendChild(gp3);
+                child.setAttribute("id",id);
+                return child;
+        }
+    </script>
+    <input id = "title" type="text" placeholder="title"></input>
+    <input id = "description" type="text" placeholder="description"></input>
+    <button onclick="addtodo()">Add todo</button>
+    <div id="todos"></div>
+</body>
+</html>
