@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>State usage </title>
+</head>
+<body>
+    <input id = "title" type="text" placeholder="title"></input>
+    <input id = "description" type="text" placeholder="description"></input>
+   
+    <div id="todos"></div>
+    <script>
+    function createChild(title,description,id){
+        const child = document.createElement("div");
+            const gp1  = document.createElement("div");
+            gp1.innerHTML = title;
+            const gp2  = document.createElement("div");
+            gp2.innerHTML = description;
+            const gp3  = document.createElement("button");
+            gp3.innerHTML = "Mark as done";
+            gp3.setAttribute("onclick" , `markasdone(${id})`);
+            child.appendChild(gp1);
+            child.appendChild(gp2);
+            child.appendChild(gp3);
+            child.setAttribute("id",id);
+            return child;
+    }
+    function stateupdate(state){
+        const parent = document.getElementById("todos");
+        parent.innerHTML = "";
+        for (let i = 0; i < state.length; i++) {
+            const element = createChild(state[i].title,state[i].description,state[i].id);
+            parent.appendChild(element);
+        }}
+    stateupdate()
+    window.setInterval(async function () {
+        const res = await fetch("https://sum-server.100xdevs.com/todos")
+        const json = await res.json()
+        stateupdate(json.todos)
+        
+    },5000)  
+</script>
+</body>
+</html>
