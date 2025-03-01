@@ -2,7 +2,7 @@ const mongoose = require ('mongoose');
 const { string } = require('zod');
 
 //connecting to mongodb
-mongoose.connect("mongodb+srv://sarang22gcebaids006:KvW4hoFwNcTtKD4Z@cluster0.9ncu3.mongodb.net/course_sellin_shit");
+mongoose.connect("mongodb+srv://sarang22gcebaids006:KvW4hoFwNcTtKD4Z@cluster0.9ncu3.mongodb.net/course_sellin_shit2");
 
 //SCHEMAS 
 

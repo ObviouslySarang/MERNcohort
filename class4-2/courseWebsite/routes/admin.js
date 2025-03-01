@@ -2,6 +2,9 @@ const express = require("express");
 const adminMiddleware = require("../middleware/Admin");
 const {Admin} = require("../db");
 const {Course} = require("../db");
+const jwt = require("jsonwebtoken");
+const {JWT_SECRET} = require("../config.js");
+
 
 const router = express.Router();
 
@@ -20,6 +23,29 @@ router.post('/signup', async (req,res)=>{
         message:"Admin successfully created"
     })
 });
+router.post('/signin',async(req,res)=>{
+    const username = req.body.username;
+    const password = req.body.password;
+
+    const user  = await Admin.find({
+        username,
+        password
+    })
+    if(user){
+        const token = jwt.sign({
+            username
+        },JWT_SECRET);
+        res.json({
+            token
+        })
+    }
+    else{
+        res.status(411).json({
+            message: "Incorrect email or pass"
+        })
+    }
+   
+})
 router.post('/courses',adminMiddleware,async(req,res)=>{
     // creation 
     const title = req.body.title;
