@@ -12,11 +12,17 @@ function App() {
     description:"advice to not smoke",
     completed:true
   }])
+  function addTodo(){
+    setTodo([...todo,{
+      title:"new todo",
+      description:"new todo description",
+      completed:false
+    }])
+  }
 
   return (
     <div>
-      {/* <Todo title={todo[0].title} description={todo[0].description}/>
-      <Todo title={todo[1].title} description={todo[1].description}/> */}
+      <button onClick={addTodo}>Add Todo</button>
       {todo.map(function(todo){
         return <Todo title={todo.title} description={todo.description}/>
       })}
