@@ -39,21 +39,22 @@ app.get('/todos', async (req, res) => {
     }
 });
 app.put('/completed',async (req, res) => {
-    const { error } = updateTodoSchema.safeParse(req.body);
-    if (error) {
-        return res.status(400).json({ error: error.errors });
+    const result = updateTodoSchema.safeParse(req.body);
+    if (!result.success) {
+        return res.status(400).json({ error: result.error.errors });
     }
-    // Proceed with updating the todo
-    await Todo.updateOne({ 
-        _id: req.body.id
-    }, {
-        completed: true
-    });
-     
-    res.status(200).json({ message: 'Todo updated successfully' });
+    try {
+        await Todo.findByIdAndUpdate(req.body.id, {
+            completed: req.body.completed
+        });
+        res.status(200).json({ message: 'Todo updated successfully' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Failed to update todo' });
+    }
 });
 
 
 app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}/todos`); 
+    console.log(`Server is running on http://localhost:${port}`); 
 });
