@@ -1,15 +1,47 @@
+import React, { useState } from 'react';
 
-import { HeaderwithBtn } from './components/HeaderwithBtn.jsx';
-import { Header } from './components/Header.jsx';
-export function App() {
+let count = 4;
+
+ export function App() {
+  const [todos, setTodos] = useState([
+    {
+      id:1,
+      title: 'todo1',
+      desc: 'description1'
+    },
+    {
+      id:2,
+      title: 'todo2',
+      desc: 'description2'
+    },
+    {
+      id:3,
+      title: 'todo3',
+      desc: 'description3'
+    }
+  ]);
+  function addTodo (){
+    setTodos([...todos,{
+      id:count++,
+      title: Math.random(),
+      desc: Math.random()
+    }])
+  }
   return (
     <>
-     <HeaderwithBtn/>
-     <Header title="for gods sake please 1"/>
-     <Header title="for gods sake please 2"/>
-     <Header title="for gods sake please 3"/>
-     <Header title="for gods sake please 4"/>
-     <Header title="for gods sake please 5"/>
+      <button onClick={addTodo}>Add Todo</button>
+      {todos.map((todo)=>(<Todo key={todo.id} title={todo.title} desc={todo.desc}/>))}
     </>
   )
 }
+
+function Todo({title,desc}){
+  return(
+    <div>
+      <h2>{title}</h2>
+      <p>{desc}</p>
+    </div>
+  )
+
+}
+
