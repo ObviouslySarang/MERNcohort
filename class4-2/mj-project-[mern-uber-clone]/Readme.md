@@ -1,15 +1,17 @@
-# User Registration Endpoint Documentation
+# User API Documentation
 
-## Endpoint: `/register`
+## 1. User Registration Endpoint
 
-### Method: `POST`
+### Endpoint: `/register`
 
-### Description:
+#### Method: `POST`
+
+#### Description:
 This endpoint is used to register a new user in the system. It validates the input data, hashes the user's password for secure storage, and creates a new user record in the database. Upon successful registration, a JSON Web Token (JWT) is generated and returned along with the user details.
 
 ---
 
-### Request Body:
+#### Request Body:
 The request body must be sent in JSON format and include the following fields:
 
 | Field               | Type   | Required | Description                                      |
@@ -33,9 +35,9 @@ Example request body:
 
 ---
 
-### Response:
+#### Response:
 
-#### Success Response:
+##### Success Response:
 - **Status Code:** `201 Created`
 - **Description:** The user was successfully registered, and a JWT token is returned.
 - **Response Body:**
@@ -53,7 +55,7 @@ Example request body:
 }
 ```
 
-#### Error Responses:
+##### Error Responses:
 
 1. **Validation Error:**
    - **Status Code:** `400 Bad Request`
@@ -90,7 +92,102 @@ Example request body:
 
 ---
 
+## 2. User Login Endpoint
+
+### Endpoint: `/login`
+
+#### Method: `POST`
+
+#### Description:
+This endpoint is used to authenticate an existing user. It validates the input data, checks the provided credentials against the database, and returns a JSON Web Token (JWT) if the credentials are valid.
+
+---
+
+#### Request Body:
+The request body must be sent in JSON format and include the following fields:
+
+| Field      | Type   | Required | Description                                      |
+|------------|--------|----------|--------------------------------------------------|
+| `email`    | String | Yes      | The email address of the user (must be valid).  |
+| `password` | String | Yes      | The password for the user (minimum 6 characters). |
+
+Example request body:
+```json
+{
+    "email": "johndoe@example.com",
+    "password": "securepassword"
+}
+```
+
+---
+
+#### Response:
+
+##### Success Response:
+- **Status Code:** `200 OK`
+- **Description:** The user was successfully authenticated, and a JWT token is returned.
+- **Response Body:**
+```json
+{
+    "token": "your-jwt-token",
+    "user": {
+        "_id": "user-id",
+        "fullname": {
+            "firstname": "John",
+            "lastname": "Doe"
+        },
+        "email": "johndoe@example.com"
+    }
+}
+```
+
+##### Error Responses:
+
+1. **Validation Error:**
+   - **Status Code:** `400 Bad Request`
+   - **Description:** The input data is invalid or missing required fields.
+   - **Response Body:**
+   ```json
+   {
+       "errors": [
+           {
+               "msg": "Invalid email address",
+               "param": "email",
+               "location": "body"
+           }
+       ]
+   }
+   ```
+
+2. **Invalid Credentials:**
+   - **Status Code:** `401 Unauthorized`
+   - **Description:** The email or password provided is incorrect.
+   - **Response Body:**
+   ```json
+   {
+       "message": "Invalid email or password"
+   }
+   ```
+
+3. **Server Error:**
+   - **Status Code:** `500 Internal Server Error`
+   - **Description:** An error occurred on the server while processing the request.
+   - **Response Body:**
+   ```json
+   {
+       "message": "Error message describing the issue"
+   }
+   ```
+
+---
+
+### Notes:
+- The `email` and `password` fields must match an existing user in the database.
+- The JWT token can be used for authentication in subsequent requests.
+
+---
+
 ### How to Use:
-1. Send a `POST` request to `/register` with the required fields in the request body.
+1. Send a `POST` request to `/login` with the required fields in the request body.
 2. Ensure the request body passes all validation rules.
 3. On success, use the returned JWT token for authentication in other endpoints.
