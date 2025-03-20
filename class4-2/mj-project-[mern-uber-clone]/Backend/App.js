@@ -3,7 +3,9 @@ dotenv.config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+
 const app = express();
+const cookieParser = require('cookie-parser');
 //const userController = require('./controllers/user.controller');
 const userRouter = require('./routes/user.routes');
 
@@ -12,7 +14,7 @@ connectToDB();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use(cookieParser());
 app.use(cors());
 
 app.get('/', (req, res) => {

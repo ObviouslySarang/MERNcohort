@@ -191,3 +191,108 @@ Example request body:
 1. Send a `POST` request to `/login` with the required fields in the request body.
 2. Ensure the request body passes all validation rules.
 3. On success, use the returned JWT token for authentication in other endpoints.
+
+---
+
+## 3. Get User Profile Endpoint
+
+### Endpoint: `/profile`
+
+#### Method: `GET`
+
+#### Description:
+This endpoint is used to retrieve the profile of the currently authenticated user. The user must be logged in and provide a valid JWT token.
+
+---
+
+#### Request Headers:
+The request must include the following header:
+
+| Header           | Value            | Required | Description                          |
+|------------------|------------------|----------|--------------------------------------|
+| `Authorization`  | `Bearer <token>` | Yes      | The JWT token of the authenticated user. |
+
+---
+
+#### Response:
+
+##### Success Response:
+- **Status Code:** `200 OK`
+- **Description:** The user's profile was successfully retrieved.
+- **Response Body:**
+```json
+{
+    "user": {
+        "_id": "user-id",
+        "fullname": {
+            "firstname": "John",
+            "lastname": "Doe"
+        },
+        "email": "johndoe@example.com"
+    }
+}
+```
+
+##### Error Responses:
+
+1. **Unauthorized:**
+   - **Status Code:** `401 Unauthorized`
+   - **Description:** The user is not authenticated or the token is invalid.
+   - **Response Body:**
+   ```json
+   {
+       "message": "Unauthorized"
+   }
+   ```
+
+---
+
+## 4. User Logout Endpoint
+
+### Endpoint: `/logout`
+
+#### Method: `GET`
+
+#### Description:
+This endpoint is used to log out the currently authenticated user. The user's JWT token is blacklisted to prevent further use.
+
+---
+
+#### Request Headers:
+The request must include the following header:
+
+| Header           | Value            | Required | Description                          |
+|------------------|------------------|----------|--------------------------------------|
+| `Authorization`  | `Bearer <token>` | Yes      | The JWT token of the authenticated user. |
+
+---
+
+#### Response:
+
+##### Success Response:
+- **Status Code:** `200 OK`
+- **Description:** The user was successfully logged out.
+- **Response Body:**
+```json
+{
+    "message": "Logged out successfully"
+}
+```
+
+##### Error Responses:
+
+1. **Unauthorized:**
+   - **Status Code:** `401 Unauthorized`
+   - **Description:** The user is not authenticated or the token is invalid.
+   - **Response Body:**
+   ```json
+   {
+       "message": "Unauthorized"
+   }
+   ```
+
+---
+
+### Notes:
+- The `/profile` and `/logout` endpoints require the user to be authenticated.
+- The JWT token must be included in the `Authorization` header for these endpoints.
