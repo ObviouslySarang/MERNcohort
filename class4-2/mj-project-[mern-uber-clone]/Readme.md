@@ -1,4 +1,4 @@
-# User API Documentation
+# User and Captain API Documentation
 
 ## 1. User Registration Endpoint
 
@@ -296,3 +296,129 @@ The request must include the following header:
 ### Notes:
 - The `/profile` and `/logout` endpoints require the user to be authenticated.
 - The JWT token must be included in the `Authorization` header for these endpoints.
+
+---
+
+## 5. Captain Registration Endpoint
+
+### Endpoint: `/captains/register`
+
+#### Method: `POST`
+
+#### Description:
+This endpoint is used to register a new captain in the system. It validates the input data, hashes the captain's password for secure storage, and creates a new captain record in the database. Upon successful registration, a JSON Web Token (JWT) is generated and returned along with the captain details.
+
+---
+
+#### Request Body:
+The request body must be sent in JSON format and include the following fields:
+
+| Field                     | Type   | Required | Description                                      |
+|---------------------------|--------|----------|--------------------------------------------------|
+| `fullname.firstname`      | String | Yes      | The first name of the captain (minimum 3 characters). |
+| `fullname.lastname`       | String | No       | The last name of the captain (minimum 3 characters). |
+| `email`                   | String | Yes      | The email address of the captain (must be valid and unique). |
+| `password`                | String | Yes      | The password for the captain (minimum 6 characters). |
+| `vehicle.color`           | String | Yes      | The color of the captain's vehicle (minimum 3 characters). |
+| `vehicle.capacity`        | Number | Yes      | The capacity of the captain's vehicle (minimum 1). |
+| `vehicle.plateNumber`     | String | Yes      | The plate number of the captain's vehicle (minimum 3 characters). |
+| `vehicle.vehicleType`     | String | Yes      | The type of the captain's vehicle (must be one of `car`, `bike`, or `auto`). |
+
+Example request body:
+```json
+{
+    "fullname": {
+        "firstname": "John",
+        "lastname": "Doe"
+    },
+    "email": "johndoe@example.com",
+    "password": "securepassword",
+    "vehicle": {
+        "color": "Red",
+        "capacity": 4,
+        "plateNumber": "ABC123",
+        "vehicleType": "car"
+    }
+}
+```
+
+---
+
+#### Response:
+
+##### Success Response:
+- **Status Code:** `201 Created`
+- **Description:** The captain was successfully registered, and a JWT token is returned.
+- **Response Body:**
+```json
+{
+    "token": "your-jwt-token",
+    "captain": {
+        "_id": "captain-id",
+        "fullname": {
+            "firstname": "John",
+            "lastname": "Doe"
+        },
+        "email": "johndoe@example.com",
+        "vehicle": {
+            "color": "Red",
+            "capacity": 4,
+            "plateNumber": "ABC123",
+            "vehicleType": "car"
+        },
+        "status": "inactive"
+    }
+}
+```
+
+##### Error Responses:
+
+1. **Validation Error:**
+   - **Status Code:** `400 Bad Request`
+   - **Description:** The input data is invalid or missing required fields.
+   - **Response Body:**
+   ```json
+   {
+       "errors": [
+           {
+               "msg": "First name must be at least 3 characters long",
+               "param": "fullname.firstname",
+               "location": "body"
+           }
+       ]
+   }
+   ```
+
+2. **Captain Already Exists:**
+   - **Status Code:** `400 Bad Request`
+   - **Description:** A captain with the same email already exists.
+   - **Response Body:**
+   ```json
+   {
+       "message": "Captain already exists"
+   }
+   ```
+
+3. **Server Error:**
+   - **Status Code:** `500 Internal Server Error`
+   - **Description:** An error occurred on the server while processing the request.
+   - **Response Body:**
+   ```json
+   {
+       "message": "Error message describing the issue"
+   }
+   ```
+
+---
+
+### Notes:
+- The `email` field must be unique. If a captain with the same email already exists, the server will throw an error.
+- Passwords are securely hashed before being stored in the database.
+- The JWT token can be used for authentication in subsequent requests.
+
+---
+
+### How to Use:
+1. Send a `POST` request to `/captains/register` with the required fields in the request body.
+2. Ensure the request body passes all validation rules.
+3. On success, use the returned JWT token for authentication in other endpoints.

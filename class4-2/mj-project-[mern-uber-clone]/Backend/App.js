@@ -6,8 +6,10 @@ const mongoose = require('mongoose');
 
 const app = express();
 const cookieParser = require('cookie-parser');
-//const userController = require('./controllers/user.controller');
+
 const userRouter = require('./routes/user.routes');
+const captainRouter = require('./routes/captain.routes');
+
 
 const connectToDB = require('./db/db');
 connectToDB();
@@ -22,5 +24,6 @@ app.get('/', (req, res) => {
 }); 
 
 app.use('/users', userRouter);
+app.use('/captains', captainRouter);
 
 module.exports = app;
