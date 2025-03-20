@@ -5,4 +5,6 @@ const blacklistTokenSchema = new mongoose.Schema({
     createdAt: { type: Date, default: Date.now, expires: 86400 } // TTL of 24 hours (86400 seconds)
 });
 
-module.exports = mongoose.model('BlacklistToken', blacklistTokenSchema);
+ const blacklistTokenModel = mongoose.model('BlacklistToken', blacklistTokenSchema);
+
+ module.exports = blacklistTokenModel;

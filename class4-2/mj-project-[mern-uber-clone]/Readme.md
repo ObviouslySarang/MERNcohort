@@ -422,3 +422,211 @@ Example request body:
 1. Send a `POST` request to `/captains/register` with the required fields in the request body.
 2. Ensure the request body passes all validation rules.
 3. On success, use the returned JWT token for authentication in other endpoints.
+
+---
+
+## 6. Captain Login Endpoint
+
+### Endpoint: `/captains/login`
+
+#### Method: `POST`
+
+#### Description:
+This endpoint is used to authenticate an existing captain. It validates the input data, checks the provided credentials against the database, and returns a JSON Web Token (JWT) if the credentials are valid.
+
+---
+
+#### Request Body:
+The request body must be sent in JSON format and include the following fields:
+
+| Field      | Type   | Required | Description                                      |
+|------------|--------|----------|--------------------------------------------------|
+| `email`    | String | Yes      | The email address of the captain (must be valid). |
+| `password` | String | Yes      | The password for the captain (minimum 6 characters). |
+
+Example request body:
+```json
+{
+    "email": "captain@example.com",
+    "password": "securepassword"
+}
+```
+
+---
+
+#### Response:
+
+##### Success Response:
+- **Status Code:** `200 OK`
+- **Description:** The captain was successfully authenticated, and a JWT token is returned.
+- **Response Body:**
+```json
+{
+    "token": "your-jwt-token",
+    "captain": {
+        "_id": "captain-id",
+        "fullname": {
+            "firstname": "John",
+            "lastname": "Doe"
+        },
+        "email": "captain@example.com",
+        "vehicle": {
+            "color": "Red",
+            "capacity": 4,
+            "plateNumber": "ABC123",
+            "vehicleType": "car"
+        },
+        "status": "active"
+    }
+}
+```
+
+##### Error Responses:
+
+1. **Validation Error:**
+   - **Status Code:** `400 Bad Request`
+   - **Description:** The input data is invalid or missing required fields.
+   - **Response Body:**
+   ```json
+   {
+       "errors": [
+           {
+               "msg": "Invalid email address",
+               "param": "email",
+               "location": "body"
+           }
+       ]
+   }
+   ```
+
+2. **Invalid Credentials:**
+   - **Status Code:** `401 Unauthorized`
+   - **Description:** The email or password provided is incorrect.
+   - **Response Body:**
+   ```json
+   {
+       "message": "Invalid email or password"
+   }
+   ```
+
+3. **Server Error:**
+   - **Status Code:** `500 Internal Server Error`
+   - **Description:** An error occurred on the server while processing the request.
+   - **Response Body:**
+   ```json
+   {
+       "message": "Error message describing the issue"
+   }
+   ```
+
+---
+
+## 7. Get Captain Profile Endpoint
+
+### Endpoint: `/captains/profile`
+
+#### Method: `GET`
+
+#### Description:
+This endpoint is used to retrieve the profile of the currently authenticated captain. The captain must be logged in and provide a valid JWT token.
+
+---
+
+#### Request Headers:
+The request must include the following header:
+
+| Header           | Value            | Required | Description                          |
+|------------------|------------------|----------|--------------------------------------|
+| `Authorization`  | `Bearer <token>` | Yes      | The JWT token of the authenticated captain. |
+
+---
+
+#### Response:
+
+##### Success Response:
+- **Status Code:** `200 OK`
+- **Description:** The captain's profile was successfully retrieved.
+- **Response Body:**
+```json
+{
+    "captain": {
+        "_id": "captain-id",
+        "fullname": {
+            "firstname": "John",
+            "lastname": "Doe"
+        },
+        "email": "captain@example.com",
+        "vehicle": {
+            "color": "Red",
+            "capacity": 4,
+            "plateNumber": "ABC123",
+            "vehicleType": "car"
+        },
+        "status": "active"
+    }
+}
+```
+
+##### Error Responses:
+
+1. **Unauthorized:**
+   - **Status Code:** `401 Unauthorized`
+   - **Description:** The captain is not authenticated or the token is invalid.
+   - **Response Body:**
+   ```json
+   {
+       "message": "Unauthorized"
+   }
+   ```
+
+---
+
+## 8. Captain Logout Endpoint
+
+### Endpoint: `/captains/logout`
+
+#### Method: `GET`
+
+#### Description:
+This endpoint is used to log out the currently authenticated captain. The captain's JWT token is blacklisted to prevent further use.
+
+---
+
+#### Request Headers:
+The request must include the following header:
+
+| Header           | Value            | Required | Description                          |
+|------------------|------------------|----------|--------------------------------------|
+| `Authorization`  | `Bearer <token>` | Yes      | The JWT token of the authenticated captain. |
+
+---
+
+#### Response:
+
+##### Success Response:
+- **Status Code:** `200 OK`
+- **Description:** The captain was successfully logged out.
+- **Response Body:**
+```json
+{
+    "message": "Logged out successfully"
+}
+```
+
+##### Error Responses:
+
+1. **Unauthorized:**
+   - **Status Code:** `401 Unauthorized`
+   - **Description:** The captain is not authenticated or the token is invalid.
+   - **Response Body:**
+   ```json
+   {
+       "message": "Unauthorized"
+   }
+   ```
+
+---
+
+### Notes:
+- The `/captains/profile` and `/captains/logout` endpoints require the captain to be authenticated.
+- The JWT token must be included in the `Authorization` header for these endpoints.
